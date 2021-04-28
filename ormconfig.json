@@ -1,0 +1,11 @@
+{
+	"type": "postgres",
+	"host": "localhost",
+	"port": "3060",
+	"username": "postgres",
+	"password": "deger",
+	"database": "ideas",
+	"synchronize": true,
+	"logging": false,
+	"entities": ["dist/**/*.entity{.ts,.js}"]
+}
