@@ -9,11 +9,14 @@ describe('UserService', () => {
     let service: UserService;
 
     const mockRepository = {
-        findOne: jest.fn(() => {
+        findOne: jest.fn((options) => {
             return Promise.resolve({
                 comparePassword: jest.fn((password) => Promise.resolve(password)),
                 toResponseObject: jest.fn(() => ({
-                    response: true
+                    id: Date.now(),
+                    token: Date.now(),
+                    username: "username",
+                    password: "password"
                 }))
             })
         }),
@@ -38,11 +41,17 @@ describe('UserService', () => {
 
     it("should login user", async () => {
 
-        expect(await service.login({
+        const userData = {
             username: "username",
             password: "password"
-        })).toEqual({
-            response: true
+        }
+
+        const response = await service.login(userData)
+
+        expect(response).toEqual({
+            id: expect.any(Number),
+            token: expect.any(Number),
+            ...userData
         })
 
     })
