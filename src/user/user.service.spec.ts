@@ -7,7 +7,16 @@ import { UserEntity } from './entities/user.entity';
 describe('UserService', () => {
 
     let service: UserService;
+
     const mockRepository = {
+        findOne: jest.fn(() => {
+            return Promise.resolve({
+                comparePassword: jest.fn((password) => Promise.resolve(password)),
+                toResponseObject: jest.fn(() => ({
+                    response: true
+                }))
+            })
+        }),
 
     }
 
@@ -25,6 +34,17 @@ describe('UserService', () => {
 
     it("service should be defined", () => {
         expect(service).toBeDefined()
+    })
+
+    it("should login user", async () => {
+
+        expect(await service.login({
+            username: "username",
+            password: "password"
+        })).toEqual({
+            response: true
+        })
+
     })
 
 })
